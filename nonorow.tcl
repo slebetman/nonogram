@@ -29,13 +29,22 @@ proc process_row {n m} {
 }
 
 proc nonorow {ngram row} {
-	set row_remainder [expr {$row-([sum $ngram]+[llength $ngram]-1)}]
+	set row_remainder [expr $row-[sum $ngram]]
 	
-	if {$row_remainder < 0} {
+	if {$row_remainder < ([llength $ngram]-1)} {
 		error "Row not large enough to contain nonogram!"
 	}
 	
-	
+	set result {}
+	foreach x [process_row $row_remainder [expr [llength $ngram]+1]] {
+		set line ""
+		foreach blank $x paint $ngram {
+			append line [string repeat " " $blank]
+			append line [string repeat "#" [expr $paint+0]]
+		}
+		lappend result $line
+	}
+	return $result
 }
 
-puts [join [process_row 5 3] \n]
+puts [join [nonorow {2 1 2} 8] \n]
