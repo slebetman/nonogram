@@ -47,4 +47,4 @@ proc nonorow {ngram row} {
 	return $result
 }
 
-puts [join [nonorow {2 1 2} 8] \n]
+puts [join [nonorow [lindex $argv 0] [lindex $argv 1]] \n]
